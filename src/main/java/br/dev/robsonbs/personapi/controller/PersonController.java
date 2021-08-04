@@ -6,11 +6,13 @@ import br.dev.robsonbs.personapi.exception.PersonNotFoundException;
 import br.dev.robsonbs.personapi.service.PersonService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @RequestMapping("/api/v1/people")
@@ -19,7 +21,7 @@ public class PersonController {
   private final PersonService personService;
   
   @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
+  @ResponseStatus(CREATED)
   public MessageResponseDTO createPerson(@RequestBody @Valid PersonDTO person) {
     return personService.create(person);
   }
@@ -33,5 +35,12 @@ public class PersonController {
   public PersonDTO findByID(@PathVariable Long id) throws
           PersonNotFoundException {
     return personService.findByID(id);
+  }
+  
+  @DeleteMapping("/{id}")
+  @ResponseStatus(NO_CONTENT)
+  public void deletePerson(@PathVariable Long id) throws
+          PersonNotFoundException {
+    personService.delete(id);
   }
 }
