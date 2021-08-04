@@ -1,4 +1,4 @@
-package br.dev.robsonbs.personapi.dtos;
+package br.dev.robsonbs.personapi.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

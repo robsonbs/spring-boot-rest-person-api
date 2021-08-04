@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -25,4 +26,6 @@ public class Person {
   private String cpf;
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<Phone> phones;
+  
+  private LocalDate birthDate;
 }

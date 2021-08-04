@@ -1,6 +1,8 @@
 package br.dev.robsonbs.personapi.service;
 
-import br.dev.robsonbs.personapi.dtos.MessageResponseDTO;
+import br.dev.robsonbs.personapi.dto.mapper.PersonMapper;
+import br.dev.robsonbs.personapi.dto.response.MessageResponseDTO;
+import br.dev.robsonbs.personapi.dto.request.PersonDTO;
 import br.dev.robsonbs.personapi.entity.Person;
 import br.dev.robsonbs.personapi.repository.PersonRepository;
 import lombok.AllArgsConstructor;
@@ -10,14 +12,18 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonService {
-  private PersonRepository personRepository;
+  private final PersonRepository personRepository;
   
+  private PersonMapper personMapper;
   
-  public MessageResponseDTO createPerson(Person person){
-    Person savedPerson = this.personRepository.save(person);
-    return MessageResponseDTO
-            .builder()
-            .message("Create person with ID = " + savedPerson.getId())
+  public MessageResponseDTO create(PersonDTO personDTO) {
+    Person person = personMapper.toModel(personDTO);
+    Person savedPerson = personRepository.save(person);
+    
+    MessageResponseDTO messageResponse = MessageResponseDTO.builder()
+            .message("Person created with ID " + savedPerson.getId())
             .build();
+    
+    return messageResponse;
   }
 }
